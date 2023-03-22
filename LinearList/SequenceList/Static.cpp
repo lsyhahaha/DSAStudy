@@ -54,6 +54,13 @@ bool ListDelete(SqList &L, int i, int &e)
     return true;
 }
 
+// 基本操作——按位查找
+int GetElem(SqList L, int i)
+{
+    // 位序从1开始，下标从0开始
+    return L.data[i-1];
+}
+
 int main()
 {
     SqList L;
@@ -88,6 +95,9 @@ int main()
     // 违规打印整个顺序表
     for (int i = 0; i < MaxSize; i++)
         printf("data[%d]=%d\n", i, L.data[i]);
+
+    // 查询第一个位置的元素
+    printf("第一个位置的元素是: %d\n", GetElem(L, 1));
 
     return 0;
 }
