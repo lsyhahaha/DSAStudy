@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct LNode
 {
@@ -142,6 +143,32 @@ LNode *LocateElem(LinkList L, int e)
     while (p != NULL && p->data != e)
         p = p->next;
     return p;
+}
+
+// 尾插法建立单链表
+LinkList List_TailInsert(LinkList &L)
+{
+    int x;
+    // 建立头结点
+    L = (LinkList)malloc(sizeof(LNode));
+    // r为表尾指针
+    LNode *s, *r = L;
+    // 输入结点的值
+    scanf("%d", &x);
+    // 输入9999代表结束
+    while (x != 9999)
+    {
+        // 在r结点之后插入元素x
+        s = (LNode *)malloc(sizeof(LNode));
+        s->data = x;
+        r->next = s;
+        // 永远保持r指向最后一个结点
+        r = s;
+        scanf("%d", &x);
+    }
+    // 表尾指针置空
+    r->next = NULL;
+    return L;
 }
 
 // 求表的长度
