@@ -47,9 +47,17 @@ bool ListInsert(LinkList &L, int i, int e)
         p = p->next;
         j++;
     }
+    return InsertNextNode(p, e);
+}
+
+// 指定结点后插
+bool InsertNextNode(LNode *p, int e)
+{
     if (p == NULL)
         return false;
     LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL)
+        return false;
     s->data = e;
     s->next = p->next;
     p->next = s;
