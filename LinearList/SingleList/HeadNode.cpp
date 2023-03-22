@@ -34,20 +34,8 @@ bool Empty(LinkList L)
 // 按位序插入
 bool ListInsert(LinkList &L, int i, int e)
 {
-    if (i < 1)
-        return false;
-    // 指针p指向当前扫描到的结点
-    LNode *p;
-    // 当前p指向的是第几个结点
-    int j = 1;
-    // p指向第一个结点（注意：不是头节点）
-    p = L;
-    // 循环摘到第i-1个结点
-    while (p != NULL && j < i - 1)
-    {
-        p = p->next;
-        j++;
-    }
+    // 找到第i-1个结点
+    LNode *p = GetElem(L, i - 1);
     return InsertNextNode(p, e);
 }
 
@@ -90,20 +78,8 @@ bool InsertPriorNode(LNode *p, int e)
 // 按位序删除
 bool ListDelete(LinkList &L, int i, int &e)
 {
-    if (i < 1)
-        return false;
-    // 指针p指向当前扫描到的结点
-    LNode *p;
-    // 当前p指向的是第几个结点
-    int j = 0;
-    // L指向头结点，头结点是第0个结点（不存数据）
-    p = L;
-    // 循环找到第i-1个结点
-    while (p != NULL && j < i - 1)
-    {
-        p = p->next;
-        j++;
-    }
+    // 找到第i-1个结点
+    LNode *p = GetElem(L, i - 1);
     // i值不合法
     if (p == NULL)
         return false;
@@ -136,6 +112,26 @@ bool DeleteNode(LNode *p)
     // 释放后继结点的存储空间
     free(q);
     return true;
+}
+
+// 按位查找，返回第i个元素
+LNode *GetElem(LinkList L, int i)
+{
+    if (i < 0)
+        return NULL;
+    // 指针p指向当前扫描到的结点
+    LNode *p;
+    // 当前p指向的是第几个结点（第0个结点 头节点）
+    int j = 0;
+    // p指向第一个结点（注意：不是头节点）
+    p = L;
+    // 循环摘到第i个结点
+    while (p != NULL && j < i)
+    {
+        p = p->next;
+        j++;
+    }
+    return p;
 }
 
 int main()
