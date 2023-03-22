@@ -122,6 +122,22 @@ bool ListDelete(LinkList &L, int i, int &e)
     return true;
 }
 
+// 删除指定节点p
+bool DeleteNode(LNode *p)
+{
+    if (p == NULL)
+        return false;
+    // 令q指向*p的后继结点
+    LNode *q = p->next;
+    // 和后继结点交换数据域
+    p->data = p->next->data;
+    // 将*q结点从链中“断开”
+    p->next = q->next;
+    // 释放后继结点的存储空间
+    free(q);
+    return true;
+}
+
 int main()
 {
     LinkList L;
