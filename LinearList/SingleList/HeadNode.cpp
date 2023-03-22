@@ -134,6 +134,16 @@ LNode *GetElem(LinkList L, int i)
     return p;
 }
 
+// 按值查找，找到数据域==e的结点
+LNode *LocateElem(LinkList L, int e)
+{
+    LNode *p = L->next;
+    // 从第1个结点开始查找数据域为e的结点
+    while (p != NULL && p->data != e)
+        p = p->next;
+    return p;
+}
+
 int main()
 {
     LinkList L;
