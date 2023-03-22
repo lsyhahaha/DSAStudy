@@ -171,6 +171,31 @@ LinkList List_TailInsert(LinkList &L)
     return L;
 }
 
+// 头插法建立单链表
+LinkList List_HeadInsert(LinkList &L)
+{
+    LNode *s;
+    int x;
+    // 创建头结点
+    L = (LinkList)malloc(sizeof(LNode));
+    // 初始为空链表
+    L->next = NULL;
+    // 输出结点的值
+    scanf("%d", &x);
+    // 输入9999表示结束
+    while (x != 9999)
+    {
+        // 创建新结点
+        s = (LNode *)malloc(sizeof(LNode));
+        s->data = x;
+        s->next = L->next;
+        // 将新结点插入表中，L为头指针
+        L->next = s;
+        scanf("%d", &x);
+    }
+    return L;
+}
+
 // 求表的长度
 int Length(LinkList L)
 {
