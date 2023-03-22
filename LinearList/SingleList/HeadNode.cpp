@@ -22,6 +22,28 @@ bool InitList(LinkList &L)
     return true;
 }
 
+// 按位序插入
+bool ListInsert(LinkList &L, int i, int e)
+{
+    if (i < 1)
+        return false;
+    LNode *p;
+    int j = 0;
+    p = L;
+    while (p != NULL && j < i - 1)
+    {
+        p = p->next;
+        j++;
+    }
+    if (p == NULL)
+        return false;
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    s->data = e;
+    s->next = p->next;
+    p->next = s;
+    return true;
+}
+
 // 判断链表是否为空
 bool Empty(LinkList L)
 {
