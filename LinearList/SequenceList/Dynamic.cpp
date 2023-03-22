@@ -54,6 +54,14 @@ bool ListDelete(SeqList &L, int i, int &e)
     return true;
 }
 
+// 基本操作——按位查找
+int GetElem(SeqList L, int i)
+{
+    // 位序从1开始，下标从0开始
+    // 指针访问的方法和普通数组一样
+    return L.data[i-1];
+}
+
 // 增加动态数组的长度
 void IncreaseSize(SeqList &L, int len)
 {
