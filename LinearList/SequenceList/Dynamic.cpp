@@ -59,7 +59,16 @@ int GetElem(SeqList L, int i)
 {
     // 位序从1开始，下标从0开始
     // 指针访问的方法和普通数组一样
-    return L.data[i-1];
+    return L.data[i - 1];
+}
+
+// 基本操作——按值查找
+int LocateElem(SeqList L, int e)
+{
+    for (int i = 0; i < L.length; i++)
+        if (L.data[i] == e)
+            return i + 1;
+    return 0;
 }
 
 // 增加动态数组的长度
@@ -121,6 +130,11 @@ int main()
     // 违规打印整个顺序表
     for (int i = 0; i < InitSize + increaseSize; i++)
         printf("data[%d]=%d\n", i, L.data[i]);
+
+    // 查询第一个位置的元素
+    printf("第一个位置的元素是: %d\n", GetElem(L, 1));
+    // 查询22所在位置
+    printf("22所在位置是: %d\n", LocateElem(L, 22));
 
     return 0;
 }

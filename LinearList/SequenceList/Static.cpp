@@ -58,7 +58,16 @@ bool ListDelete(SqList &L, int i, int &e)
 int GetElem(SqList L, int i)
 {
     // 位序从1开始，下标从0开始
-    return L.data[i-1];
+    return L.data[i - 1];
+}
+
+// 基本操作——按值查找
+int LocateElem(SqList L, int e)
+{
+    for (int i = 0; i < L.length; i++)
+        if (L.data[i] == e)
+            return i + 1;
+    return 0;
 }
 
 int main()
@@ -98,6 +107,8 @@ int main()
 
     // 查询第一个位置的元素
     printf("第一个位置的元素是: %d\n", GetElem(L, 1));
+    // 查询22所在位置
+    printf("22所在位置是: %d\n", LocateElem(L, 22));
 
     return 0;
 }
