@@ -64,6 +64,21 @@ bool InsertNextNode(LNode *p, int e)
     return true;
 }
 
+// 指定结点前插
+bool InsertPriorNode(LNode *p, int e)
+{
+    if (p == NULL)
+        return false;
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL)
+        return false;
+    s->next = p->next;
+    p->next = s;
+    s->data = p->data;
+    p->data = e;
+    return true;
+}
+
 int main()
 {
     LinkList L;
