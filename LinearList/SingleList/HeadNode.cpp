@@ -22,28 +22,6 @@ bool InitList(LinkList &L)
     return true;
 }
 
-// 按位序插入
-bool ListInsert(LinkList &L, int i, int e)
-{
-    if (i < 1)
-        return false;
-    LNode *p;
-    int j = 0;
-    p = L;
-    while (p != NULL && j < i - 1)
-    {
-        p = p->next;
-        j++;
-    }
-    if (p == NULL)
-        return false;
-    LNode *s = (LNode *)malloc(sizeof(LNode));
-    s->data = e;
-    s->next = p->next;
-    p->next = s;
-    return true;
-}
-
 // 判断链表是否为空
 bool Empty(LinkList L)
 {
@@ -53,16 +31,39 @@ bool Empty(LinkList L)
         return false;
 }
 
+// 按位序插入
+bool ListInsert(LinkList &L, int i, int e)
+{
+    if (i < 1)
+        return false;
+    // 指针p指向当前扫描到的结点
+    LNode *p;
+    // 当前p指向的是第几个结点
+    int j = 1;
+    // p指向第一个结点（注意：不是头节点）
+    p = L;
+    // 循环摘到第i-1个结点
+    while (p != NULL && j < i - 1)
+    {
+        p = p->next;
+        j++;
+    }
+    return InsertNextNode(p, e);
+}
+
 // 指定结点后插
 bool InsertNextNode(LNode *p, int e)
 {
     if (p == NULL)
         return false;
     LNode *s = (LNode *)malloc(sizeof(LNode));
+    // 内存分配失败
     if (s == NULL)
         return false;
+    // 用结点s保存数据元素e
     s->data = e;
     s->next = p->next;
+    // 将结点s连接到p后
     p->next = s;
     return true;
 }
@@ -73,12 +74,51 @@ bool InsertPriorNode(LNode *p, int e)
     if (p == NULL)
         return false;
     LNode *s = (LNode *)malloc(sizeof(LNode));
+    // 内存分配失败
     if (s == NULL)
         return false;
     s->next = p->next;
+    // 新节点s连接到p后
     p->next = s;
+    // 将p中元素复制到s中
     s->data = p->data;
+    // p中元素覆盖为e
     p->data = e;
+    return true;
+}
+
+// 按位序删除
+bool ListDelete(LinkList &L, int i, int &e)
+{
+    if (i < 1)
+        return false;
+    // 指针p指向当前扫描到的结点
+    LNode *p;
+    // 当前p指向的是第几个结点
+    int j = 0;
+    // L指向头结点，头结点是第0个结点（不存数据）
+    p = L;
+    // 循环找到第i-1个结点
+    while (p != NULL && j < i - 1)
+    {
+        p = p->next;
+        j++;
+    }
+    // i值不合法
+    if (p == NULL)
+        return false;
+    // 第i-1个结点之后已无其他结点
+    if (p->next == NULL)
+        return false;
+    // 令q指向被删除结点
+    LNode *q = p->next;
+    // 用e返回元素的值
+    e = q->data;
+    // 将*q结点从链中“断开”
+    p->next = q->next;
+    // 释放结点的存储空间
+    free(q);
+    // 删除成功
     return true;
 }
 
