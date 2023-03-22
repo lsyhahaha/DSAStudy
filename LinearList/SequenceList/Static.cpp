@@ -23,17 +23,39 @@ void InitList(SqList &L)
     L.length = 0;
 }
 
+// 基本操作——插入
+bool ListInsert(SqList &L, int i, int e)
+{
+    if (i < 1 || i > L.length + 1)
+        return false;
+    if (L.length >= MaxSize)
+        return false;
+    for (int j = L.length; j >= i; j--)
+        L.data[j] = L.data[j - 1];
+    L.data[i - 1] = e;
+    L.length++;
+    return true;
+}
+
 int main()
 {
-    // 声明一个顺序表
     SqList L;
-    // 初始化顺序表
     InitList(L);
-    // 后续操作
+    // 在前三个位置写入数据
+    ListInsert(L, 1, 11);
+    ListInsert(L, 2, 22);
+    ListInsert(L, 3, 33);
 
-    // 尝试“违规”打印整个数组
-    // i < L.length 更加合法，但仍不是一个好的选择
-    // 最好的选择是使用基本操作来访问各个数据元素
+    // 违规打印整个顺序表
+    for (int i = 0; i < MaxSize; i++)
+        printf("data[%d]=%d\n", i, L.data[i]);
+
+    // 在第二个位置插入数据
+    ListInsert(L, 2, 3);
+
+    printf("插入操作后:\n");
+
+    // 违规打印整个顺序表
     for (int i = 0; i < MaxSize; i++)
         printf("data[%d]=%d\n", i, L.data[i]);
 
