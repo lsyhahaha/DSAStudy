@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdlib.h>
 
 typedef struct LNode
 {
@@ -11,17 +12,23 @@ typedef struct LNode
 // LNode *L 声明一个指向单链表第一个节点的指针
 // LinkList L 声明一个指向单链表第一个节点的指针，代码可读性更强
 
-// 初始化链表
+// 初始化链表（带头结点）
 bool InitList(LinkList &L)
 {
-    L = NULL;
+    L = (LNode *)malloc(sizeof(LNode));
+    if (L == NULL)
+        return false;
+    L->next = NULL;
     return true;
 }
 
 // 判断链表是否为空
 bool Empty(LinkList L)
 {
-    return (L == NULL);
+    if (L->next == NULL)
+        return true;
+    else
+        return false;
 }
 
 int main()
