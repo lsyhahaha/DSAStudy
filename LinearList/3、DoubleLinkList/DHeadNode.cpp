@@ -21,6 +21,21 @@ bool InitDLinkList(DLinkList &L)
     return true;
 }
 
+// 初始化循环双链表
+bool InitDLinkList2(DLinkList &L)
+{
+    // 分配一个头结点
+    L = (DNode *)malloc(sizeof(DNode));
+    // 内存不足 分配失败
+    if (L == NULL)
+        return false;
+    // 头结点的prior指向头结点
+    L->prior = L;
+    // 头结点的next指向头结点
+    L->next = L;
+    return true;
+}
+
 // 双链表的插入 在p节点后插入s结点
 bool InsertNextDNode(DNode *p, DNode *s)
 {
@@ -29,6 +44,7 @@ bool InsertNextDNode(DNode *p, DNode *s)
         return false;
     s->next = p->next;
     // 如果p结点有后继结点
+    // 对于循环双链表，可以没有这个判断条件
     if (p->next != NULL)
         p->next->prior = s;
     s->prior = p;
@@ -45,6 +61,7 @@ bool DeleteNextDNode(DNode *p)
     if (q == NULL)
         return false;
     p->next = q->next;
+    // 对于循环双链表，可以没有这个判断条件
     if (q->next != NULL)
         q->next->prior = p;
     free(q);
@@ -91,6 +108,42 @@ void ForwardTraversal2(DNode *p)
         // 对结点p的操作，如打印，查找
         p = p->prior;
     }
+}
+
+// 判断双链表是否为空
+bool Empty(DLinkList L)
+{
+    if (L->next == NULL)
+        return true;
+    else
+        return false;
+}
+
+// 判断循环双链表是否为空
+bool Empty2(DLinkList L)
+{
+    if (L->next == L)
+        return true;
+    else
+        return false;
+}
+
+// 判断结点p是否为双链表的表尾结点
+bool isTail(DLinkList L, DNode *p)
+{
+    if (p->next == NULL)
+        return true;
+    else
+        return false;
+}
+
+// 判断结点p是否为循环双链表的表尾结点
+bool isTail(DLinkList L, DNode *p)
+{
+    if (p->next == L)
+        return true;
+    else
+        return false;
 }
 
 int main()

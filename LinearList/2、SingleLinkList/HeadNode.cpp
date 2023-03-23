@@ -23,10 +23,31 @@ bool InitList(LinkList &L)
     return true;
 }
 
+// 初始化循环单链表
+bool InitList2(LinkList &L)
+{
+    L = (LNode *)malloc(sizeof(LNode));
+    if (L == NULL)
+        return false;
+    // 头结点next指向头结点
+    L->next = L;
+    return true;
+}
+
 // 判断链表是否为空
 bool Empty(LinkList L)
 {
     if (L->next == NULL)
+        return true;
+    else
+        return false;
+}
+
+// 判断循环单链表是否为空
+bool Empty2(LinkList L)
+{
+    // 检查头结点next是否指向自己
+    if (L->next == L)
         return true;
     else
         return false;
@@ -208,6 +229,25 @@ int Length(LinkList L)
         len++;
     }
     return len;
+}
+
+// 判断结点p是否为单链表的表尾结点
+bool isTail(LinkList L, LNode *p)
+{
+    if (p->next == NULL)
+        return true;
+    else
+        return false;
+}
+
+// 判断结点p是否为循环单链表的表尾结点
+bool isTail2(LinkList L, LNode *p)
+{
+    // 判断其next是否指向头结点
+    if (p->next == L)
+        return true;
+    else
+        return false;
 }
 
 int main()
