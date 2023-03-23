@@ -4,6 +4,7 @@
 !*.cxx
 !*.cc
 !*.h
+!*.md
 !Makefile
 !.gitignore
 !*/
