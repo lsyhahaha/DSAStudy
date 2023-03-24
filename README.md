@@ -10,3 +10,6 @@
     - [单链表（包括循环单链表）](./1、LinearList/2、SingleLinkList)
     - [双链表（包括循环双链表）](./1、LinearList/3、DoubleLinkList)
     - [静态链表](./1、LinearList/4、StaticLinkList)
+- [第三章：栈](./2、Stack)
+    - [顺序栈](./2、Stack/1、SequenceStack)
+    - [链栈](./2、Stack/2、LinkStack)
