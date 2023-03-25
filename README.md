@@ -13,3 +13,4 @@
 - [第三章：栈](./2、Stack)
     - [顺序栈](./2、Stack/1、SequenceStack)
     - [链栈](./2、Stack/2、LinkStack)
+    - [队列](./2、Stack/3、Queue)
