@@ -14,3 +14,5 @@
     - [顺序栈](./2、Stack/1、SequenceStack)
     - [链栈](./2、Stack/2、LinkStack)
     - [队列](./2、Stack/3、Queue)
+    - [用栈实现括号匹配](./2、Stack/4、Stack-BracketMatching)
+    - [用栈实现表达式计算](./2、Stack/5、Stack-Notation)
