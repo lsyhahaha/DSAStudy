@@ -53,12 +53,34 @@ bool Empty2(LinkList L)
         return false;
 }
 
-// 按位序插入
-bool ListInsert(LinkList &L, int i, int e)
+// 按位查找，返回第i个元素
+LNode *GetElem(LinkList L, int i)
 {
-    // 找到第i-1个结点
-    LNode *p = GetElem(L, i - 1);
-    return InsertNextNode(p, e);
+    if (i < 0)
+        return NULL;
+    // 指针p指向当前扫描到的结点
+    LNode *p;
+    // 当前p指向的是第几个结点（第0个结点 头节点）
+    int j = 0;
+    // p指向第一个结点（注意：不是头节点）
+    p = L;
+    // 循环摘到第i个结点
+    while (p != NULL && j < i)
+    {
+        p = p->next;
+        j++;
+    }
+    return p;
+}
+
+// 按值查找，找到数据域==e的结点
+LNode *LocateElem(LinkList L, int e)
+{
+    LNode *p = L->next;
+    // 从第1个结点开始查找数据域为e的结点
+    while (p != NULL && p->data != e)
+        p = p->next;
+    return p;
 }
 
 // 指定结点后插
@@ -95,6 +117,14 @@ bool InsertPriorNode(LNode *p, int e)
     // p中元素覆盖为e
     p->data = e;
     return true;
+}
+
+// 按位序插入
+bool ListInsert(LinkList &L, int i, int e)
+{
+    // 找到第i-1个结点
+    LNode *p = GetElem(L, i - 1);
+    return InsertNextNode(p, e);
 }
 
 // 按位序删除
@@ -134,36 +164,6 @@ bool DeleteNode(LNode *p)
     // 释放后继结点的存储空间
     free(q);
     return true;
-}
-
-// 按位查找，返回第i个元素
-LNode *GetElem(LinkList L, int i)
-{
-    if (i < 0)
-        return NULL;
-    // 指针p指向当前扫描到的结点
-    LNode *p;
-    // 当前p指向的是第几个结点（第0个结点 头节点）
-    int j = 0;
-    // p指向第一个结点（注意：不是头节点）
-    p = L;
-    // 循环摘到第i个结点
-    while (p != NULL && j < i)
-    {
-        p = p->next;
-        j++;
-    }
-    return p;
-}
-
-// 按值查找，找到数据域==e的结点
-LNode *LocateElem(LinkList L, int e)
-{
-    LNode *p = L->next;
-    // 从第1个结点开始查找数据域为e的结点
-    while (p != NULL && p->data != e)
-        p = p->next;
-    return p;
 }
 
 // 尾插法建立单链表

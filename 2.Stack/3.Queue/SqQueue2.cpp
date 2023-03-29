@@ -26,3 +26,10 @@ bool QueueEmpty(SqQueue Q)
 
 // 判满
 // 解决办法同SqQueue.cpp中提到的三种办法
+
+int main()
+{
+    SqQueue Q;
+    InitQueue(Q);
+    return 0;
+}

@@ -131,19 +131,13 @@ bool Empty2(DLinkList L)
 // 判断结点p是否为双链表的表尾结点
 bool isTail(DLinkList L, DNode *p)
 {
-    if (p->next == NULL)
-        return true;
-    else
-        return false;
+    return (p->next == NULL);
 }
 
 // 判断结点p是否为循环双链表的表尾结点
-bool isTail(DLinkList L, DNode *p)
+bool isTail2(DLinkList L, DNode *p)
 {
-    if (p->next == L)
-        return true;
-    else
-        return false;
+    return (p->next == L);
 }
 
 int main()

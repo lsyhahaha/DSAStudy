@@ -25,35 +25,6 @@ bool Empty(LinkList L)
     return (L == NULL);
 }
 
-// 按位序插入
-bool ListInsert(LinkList &L, int i, int e)
-{
-    if (i < 1)
-        return false;
-    // 处理第一个结点的操作与其他结点不同
-    if (i == 1)
-    {
-        LNode *s = (LNode *)malloc(sizeof(LNode));
-        s->data = e;
-        s->next = L;
-        L = s;
-        return true;
-    }
-    // 指针p指向当前扫描到的结点
-    LNode *p;
-    // 当前p指向的是第几个结点
-    int j = 1;
-    // p指向第一个结点（注意：不是头节点）
-    p = L;
-    // 循环摘到第i-1个结点
-    while (p != NULL && j < i - 1)
-    {
-        p = p->next;
-        j++;
-    }
-    return InsertNextNode(p, e);
-}
-
 // 指定结点后插
 bool InsertNextNode(LNode *p, int e)
 {
@@ -88,6 +59,35 @@ bool InsertPriorNode(LNode *p, int e)
     // p中元素覆盖为e
     p->data = e;
     return true;
+}
+
+// 按位序插入
+bool ListInsert(LinkList &L, int i, int e)
+{
+    if (i < 1)
+        return false;
+    // 处理第一个结点的操作与其他结点不同
+    if (i == 1)
+    {
+        LNode *s = (LNode *)malloc(sizeof(LNode));
+        s->data = e;
+        s->next = L;
+        L = s;
+        return true;
+    }
+    // 指针p指向当前扫描到的结点
+    LNode *p;
+    // 当前p指向的是第几个结点
+    int j = 1;
+    // p指向第一个结点（注意：不是头节点）
+    p = L;
+    // 循环摘到第i-1个结点
+    while (p != NULL && j < i - 1)
+    {
+        p = p->next;
+        j++;
+    }
+    return InsertNextNode(p, e);
 }
 
 int main()

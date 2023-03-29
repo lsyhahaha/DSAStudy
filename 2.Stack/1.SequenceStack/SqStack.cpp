@@ -64,6 +64,7 @@ bool GetTop(SqStack S, int &x)
         return false;
     // x记录栈顶元素
     x = S.data[S.top];
+    return true;
 }
 
 // 销毁栈：函数运行结束后自动回收内存

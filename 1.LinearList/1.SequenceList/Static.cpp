@@ -84,6 +84,7 @@ int main()
     // 违规打印整个顺序表
     for (int i = 0; i < MaxSize; i++)
         printf("data[%d]=%d\n", i, L.data[i]);
+    printf("————————\n");
 
     // 在第二个位置插入数据
     ListInsert(L, 2, 3);
@@ -93,6 +94,7 @@ int main()
     // 违规打印整个顺序表
     for (int i = 0; i < MaxSize; i++)
         printf("data[%d]=%d\n", i, L.data[i]);
+    printf("————————\n");
 
     // 用变量e把删除的元素“带回来”
     int e = -1;
@@ -104,6 +106,7 @@ int main()
     // 违规打印整个顺序表
     for (int i = 0; i < MaxSize; i++)
         printf("data[%d]=%d\n", i, L.data[i]);
+    printf("————————\n");
 
     // 查询第一个位置的元素
     printf("第一个位置的元素是: %d\n", GetElem(L, 1));

@@ -20,3 +20,11 @@ void InitStack(ShStack &S)
 }
 
 // 栈满条件：top0 + 1 == top1
+
+int main()
+{
+    ShStack S;
+    InitStack(S);
+    
+    return 0;
+}
