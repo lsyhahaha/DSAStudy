@@ -60,7 +60,7 @@ int GetTop(SqStack S)
 }
 
 // 前缀表达式计算
-bool RPNCalc(SqStack S, std::string str[], int length)
+bool RPNCalc(SqStack &S, std::string str[], int length)
 {
     // 循环遍历字符串
     for (int i = length - 1; i >= 0; i--)

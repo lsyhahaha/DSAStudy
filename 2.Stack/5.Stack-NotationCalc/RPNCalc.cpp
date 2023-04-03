@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <string>
 #include <iostream>
 
@@ -60,7 +60,7 @@ int GetTop(SqStack S)
 }
 
 // 后缀表达式计算
-bool RPNCalc(SqStack S, std::string str[], int length)
+bool RPNCalc(SqStack &S, std::string str[], int length)
 {
     // 循环遍历字符串
     for (int i = 0; i < length; i++)
@@ -126,6 +126,10 @@ int main()
 
     std::string Notation[] = {"3", "15", "7", "1", "1", "+", "-", "/", "*", "2", "1", "1", "+", "+", "-"};
     RPNCalc(S, Notation, 15);
+
+    // 输出结果
+    std::cout << std::endl
+              << "计算结果为" << GetTop(S) << std::endl;
 
     return 0;
 }
