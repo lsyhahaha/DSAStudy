@@ -69,11 +69,13 @@ void INtoRPN(StringStack::StringSqStack &OS, IntStack::IntSqStack &NS, std::stri
                 // 弹出运算符
                 std::string Operator;
                 StringStack::Pop(OS, Operator);
+                std::cout << "弹出了运算符+-：" << Operator << std::endl;
                 // PRN计算，结果压入操作数栈
                 RPNCalc(Operator, NS);
             }
             // 都搞定了，再把当前运算符压入运算符栈
             StringStack::Push(OS, Notation[i]);
+            std::cout << "把：" << Notation[i] << "压入" << std::endl;
         }
         // 如果遇到高级运算符
         else if (Notation[i] == "*" || Notation[i] == "/")
@@ -86,11 +88,13 @@ void INtoRPN(StringStack::StringSqStack &OS, IntStack::IntSqStack &NS, std::stri
                 // 弹出运算符
                 std::string Operator;
                 StringStack::Pop(OS, Operator);
+                std::cout << "弹出了运算符*/：" << Operator << std::endl;
                 // PRN计算，结果压入操作数栈
                 RPNCalc(Operator, NS);
             }
             // 都搞定了，再把当前运算符压入运算符栈
             StringStack::Push(OS, Notation[i]);
+            std::cout << "把：" << Notation[i] << "压入" << std::endl;
         }
         // 如果遇到左括号
         else if (Notation[i] == "(" || Notation[i] == "[" || Notation[i] == "{")
@@ -98,20 +102,26 @@ void INtoRPN(StringStack::StringSqStack &OS, IntStack::IntSqStack &NS, std::stri
             // std::cout << "遇到左括号：" << Notation[i] << std::endl;
             // 直接压入运算符栈
             StringStack::Push(OS, Notation[i]);
+            std::cout << "把：" << Notation[i] << "压入" << std::endl;
         }
         // 如果遇到右括号
         else if (Notation[i] == ")" || Notation[i] == "]" || Notation[i] == "}")
         {
-            // std::cout << "遇到右括号：" << Notation[i] << std::endl;
-            // 判断其是否为左括号
-            while (StringStack::GetTop(OS) != "(" && StringStack::GetTop(OS) != "[" && StringStack::GetTop(OS) != "{")
+            std::cout << "遇到右括号：" << Notation[i] << std::endl;
+            // 不是左括号，且栈非空
+            while ((StringStack::GetTop(OS) != "(" && StringStack::GetTop(OS) != "[" && StringStack::GetTop(OS) != "{") && StringStack::StackEmpty(OS) != true)
             {
                 // 不是，弹出运算符栈的元素(+-*/)
                 std::string Operator;
                 StringStack::Pop(OS, Operator);
+                std::cout << "弹出了运算符)：" << Operator << std::endl;
                 // PRN计算，结果压入操作数栈
                 RPNCalc(Operator, NS);
+                // std::cout << "遇到右括号，并执行了计算。" << std::endl;
             }
+            // 弹出左括号
+            std::string LeftTmp;
+            StringStack::Pop(OS, LeftTmp);
         }
         // 如果遇到操作数
         else
@@ -119,7 +129,18 @@ void INtoRPN(StringStack::StringSqStack &OS, IntStack::IntSqStack &NS, std::stri
             // std::cout << "遇到操作数：" << std::stoi(Notation[i]) << std::endl;
             // 直接压入操作数栈
             IntStack::Push(NS, std::stoi(Notation[i]));
+            std::cout << "把：" << Notation[i] << "压入" << std::endl;
         }
+    }
+    // 最后 运算符栈还剩一个，操作数栈还剩两个
+    // 但如果有人在最外面套了个括号，就必须判断一下运算符栈栈空
+    if (StringStack::StackEmpty(OS) != true)
+    {
+        std::string Operator;
+        StringStack::Pop(OS, Operator);
+        std::cout << "弹出了运算符：" << Operator << std::endl;
+        // PRN计算，结果压入操作数栈
+        RPNCalc(Operator, NS);
     }
 }
 

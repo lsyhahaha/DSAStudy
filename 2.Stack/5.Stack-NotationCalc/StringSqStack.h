@@ -1,4 +1,4 @@
-// 字符型顺序栈基本操作
+﻿// 字符型顺序栈基本操作
 
 #include <stdio.h>
 #include <string>
@@ -68,7 +68,7 @@ namespace StringStack
     {
         // 栈空 报错
         if (S.top == -1)
-            return false;
+            return "栈空";
         return S.StringData[S.top];
     }
 }
