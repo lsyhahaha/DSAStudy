@@ -1,18 +1,19 @@
-﻿// 压缩存储：只存储 主对角线 和 下三角区/上三角区，按行或列优先存入一维数组。
+﻿// 压缩存储：只存储 主对角线 和 下三角区/上三角区，其他元素为0，按行或列优先存入一维数组。
 
 // 数组大小：1+2+3+……+n = ((1+n)*n)/2
 
 #include <iostream>
 
 #define n 5
+#define c 0
 
 int main()
 {
-    int data[n][n] = {{1, 2, 3, 4, 5},
-                      {2, 2, 3, 4, 5},
-                      {3, 3, 3, 4, 5},
-                      {4, 4, 4, 4, 5},
-                      {5, 5, 5, 5, 5}};
+    int data[n][n] = {{1, 1, 1, 1, 1},
+                      {c, 2, 2, 2, 2},
+                      {c, c, 3, 3, 3},
+                      {c, c, c, 4, 4},
+                      {c, c, c, c, 5}};
     // for (int i = 0; i < n; i++)
     // {
     //     for (int j = 0; j < n; j++)
@@ -33,19 +34,68 @@ int main()
         std::cout << std::endl;
     }
 
-    // 判断是否对称
+    // 判断是否为三角矩阵
+    // 矩阵是否经过翻转 0为没有 1为有
+    int flag = 0;
+    int flagUp = 0;
+    int flagDown = 0;
+    int flagCount = (((n * n) - n) / 2);
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            if (data[i][j] != data[j][i])
-                return 1;
+            if (i > j && data[i][j] == c)
+            {
+                // 下三角区的元素是0
+                flagDown++;
+            }
+            else if (i < j && data[i][j] == c)
+            {
+                // 上三角区的元素是0
+                flagUp++;
+            }
         }
     }
-    std::cout << "矩阵对称" << std::endl;
+    if (flagDown == flagCount)
+    {
+        std::cout << "下三角区全为c，上三角矩阵" << std::endl;
+        // 将上三角矩阵转换为下三角矩阵，方便后续处理
+        flag = 1;
+        std::cout << "为方便后续处理，矩阵将被翻转" << std::endl;
+        for (int i = 0; i < n; i++)
+        {
+            // 注意：只需处理对角线下面的元素
+            for (int j = 0; j < i; j++)
+            {
+                int temp = data[i][j];
+                data[i][j] = data[j][i];
+                data[j][i] = temp;
+            }
+        }
+    }
+    if (flagUp == flagCount)
+    {
+        std::cout << "上三角区全为c，下三角矩阵" << std::endl;
+    }
+    if (flagDown < flagCount && flagUp < flagCount)
+    {
+        std::cout << "不是三角矩阵" << std::endl;
+        return 1;
+    }
+
+    // 以下三角矩阵模式输出
+    std::cout << "以下三角矩阵模式输出：" << std::endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            std::cout << data[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 
     // 转换存储方式
-    // 创建一个大小为 ((1 + n) * n) / 2 的数组
+    // 创建一个大小为 (((1 + n) * n) / 2) 的数组
     int compreM[((1 + n) * n) / 2] = {0};
     // 将data存入compreM，只存储下三角区和对角线
     // ！此处的ij不是下标的ij，而是数学描述上的ij。
@@ -82,7 +132,7 @@ int main()
             }
             else
             {
-                std::cout << compreM[((j * (j - 1)) / 2) + i - 1] << " ";
+                std::cout << c << " ";
             }
         }
         std::cout << std::endl;
