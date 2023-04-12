@@ -140,7 +140,7 @@ int index(SString S, SString T)
 // 最多对比 n-m+1 个子串
 // 定位操作Index函数就是一种朴素模式匹配算法。
 // 朴素 模式匹配 算法（暴力算法）
-int Index2(SString S, SString T)
+int index2(SString S, SString T)
 {
     int i = 1, j = 1;
     while (i <= S.length && j <= T.length)
@@ -157,6 +157,7 @@ int Index2(SString S, SString T)
             // i-j 回到了最开始的前一个位置
             // +1 让我们回到了开始的位置
             // +2 让我们到了下一个可以匹配的子串开头
+            // 与KMP相比，i指针回溯。
             i = i - j + 2;
             j = 1;
         }
@@ -172,6 +173,32 @@ int Index2(SString S, SString T)
 // 最坏的情况，每个子串都要对比m个字符，共n-m+1个子串，
 // 复杂度 = O((n-m+1)m) = O(nm)
 // 注：一般情况下 n >> m
+
+// KMP算法
+// 传入主串和模式串以及next数组
+int index_KMP(SString S, SString T, int next[])
+{
+    int i = 1, j = 1;
+    while (i <= S.length && j <= T.length)
+    {
+        // 主串与模式串中元素依次对比，相同则继续对比下一个元素。
+        if (j == 0 || S.ch[i] == T.ch[j])
+        {
+            i++;
+            j++;
+        }
+        // 否则 模式串根据next数组向右移动
+        else
+            // 与朴素模式匹配相比，i指针不回溯
+            j = next[j];
+    }
+    if (j > T.length)
+        return i - T.length;
+    else
+        return 0;
+}
+// 最坏时间复杂度 = O(m+n)
+// 其中，求next数组复杂度 = O(m)
 
 int main()
 {
@@ -248,7 +275,8 @@ int main()
     StrAssign(Y1, char5);
     StrAssign(Y2, char6);
 
-    std::cout << index(Y1, Y2) << std::endl;
+    std::cout << "朴素模式匹配1：" << index(Y1, Y2) << std::endl;
+    std::cout << "朴素模式匹配2：" << index2(Y1, Y2) << std::endl;
 
     return 0;
 }
