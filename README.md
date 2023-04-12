@@ -18,3 +18,6 @@
     - [栈的应用 - 表达式计算](./2.Stack/5.Stack-NotationCalc)
     - [栈的应用 - 迭代](./2.Stack/6.Stack-Recursion)
     - [矩阵压缩存储](./2.Stack/7.Matrix-Compression-Storage/)
+- [第四章：串](3.String/)
+    - [顺序串](3.String/1.SequenceString/)
+    - [链串](3.String/2.LinkString/)
