@@ -174,6 +174,72 @@ int index2(SString S, SString T)
 // 复杂度 = O((n-m+1)m) = O(nm)
 // 注：一般情况下 n >> m
 
+// 求next数组
+// next[0]弃用，这样可以不过度思考下标问题
+// 第一个字符不匹配时，任何模式串都一样，j=0，next[1]都无脑写0。
+// 第二个字符不匹配时，任何模式串都一样，尝试匹配第一个字符，next[2]都无脑写1。
+// 从第三个字符开始：
+// 在不匹配的位置前面，划一条分界线。模式串一步一步向后退，直到分界线前“能对上”，或者模式串完全跨过分界线为止。
+// 此时分界线后对于模式串是哪，next数组值就是多少
+// ababaa的next数组：
+// 序号     1 2 3 4 5 6
+// 模式串   a b a b a a
+// next[j] 0 1 1 2 3 4
+// 下面的代码是我自己根据以上逻辑写的
+bool fineNext(SString T, int next[], int len)
+{
+    // 前两个位置直接给0和1
+    next[1] = 0;
+    next[2] = 1;
+    // 从模式串第3个位置不匹配开始依次处理，至串长结束。
+    for (int i = 3; i <= T.length; i++)
+    {
+        // 为了方便，重新定义一个模式串的子串
+        // 这个子串表示已知主串且匹配上的部分
+        SString TS;
+        // 从模式串中掏出这个子串
+        SubString(TS, T, 1, i - 1);
+        // 输出看一下
+        // std::cout << "当前模式串的子串：";
+        // prints(TS);
+        // std::cout << std::endl;
+        // 错位对比子串和模式串，是否相同
+        // 从1开始，循环到i-1，也就是已知并匹配的部分
+        int x = 1, y = 1, z = 1;
+        while ((y + z) <= (i - 1))
+        {
+            // 如果相同，则判断下一个位置
+            if (T.ch[x] == TS.ch[y + z])
+            {
+                x++;
+                y++;
+                // std::cout << "匹配" << std::endl;
+            }
+            // 如果不同，错一位重新对比
+            else
+            {
+                x = 1;
+                y = 1;
+                z++;
+                // std::cout << "不匹配" << std::endl;
+            }
+        }
+        // 如果(y+z)超出子串范围(i-1)，则匹配成功
+        if ((y + z) > (i - 1))
+        {
+            next[i] = i - z;
+        }
+    }
+    // 输出next数组
+    // for (int i = 1; i < len + 1; i++)
+    // {
+    //     std::cout << next[i] << " ";
+    // }
+    // std::cout << std::endl;
+    
+    return true;
+}
+
 // KMP算法
 // 传入主串和模式串以及next数组
 int index_KMP(SString S, SString T, int next[])
@@ -269,14 +335,19 @@ int main()
         std::cout << std::endl;
     }
 
-    char *char5 = "abcdef";
-    char *char6 = "cde";
+    char *char5 = "ababaa";
+    char *char6 = "baa";
 
     StrAssign(Y1, char5);
     StrAssign(Y2, char6);
 
     std::cout << "朴素模式匹配1：" << index(Y1, Y2) << std::endl;
     std::cout << "朴素模式匹配2：" << index2(Y1, Y2) << std::endl;
+
+    int next[6];
+    fineNext(Y1, next, 6);
+
+    std::cout << "KMP：" << index_KMP(Y1, Y2, next) << std::endl;
 
     return 0;
 }
