@@ -19,5 +19,5 @@
     - [栈的应用 - 迭代](./2.Stack/6.Stack-Recursion)
     - [矩阵压缩存储](./2.Stack/7.Matrix-Compression-Storage/)
 - [第四章：串](3.String/)
-    - [顺序串](3.String/1.SequenceString/)
+    - [顺序串（包含 朴素模式匹配算法 和 KMP算法）](3.String/1.SequenceString/)
     - [链串](3.String/2.LinkString/)
