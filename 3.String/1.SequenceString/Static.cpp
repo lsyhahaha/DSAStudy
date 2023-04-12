@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 
 #define MAXLEN 255
+#define LEN 5
 
 typedef struct
 {
@@ -186,7 +187,7 @@ int index2(SString S, SString T)
 // 模式串   a b a b a a
 // next[j] 0 1 1 2 3 4
 // 下面的代码是我自己根据以上逻辑写的
-bool fineNext(SString T, int next[], int len)
+bool fineNext(SString T, int next[])
 {
     // 前两个位置直接给0和1
     next[1] = 0;
@@ -230,13 +231,29 @@ bool fineNext(SString T, int next[], int len)
             next[i] = i - z;
         }
     }
-    // 输出next数组
-    // for (int i = 1; i < len + 1; i++)
-    // {
-    //     std::cout << next[i] << " ";
-    // }
-    // std::cout << std::endl;
-    
+
+    return true;
+}
+
+// 求nextval数组
+// 首先需要先求出next数组
+bool fineNextval(SString T, int next[], int nextval[])
+{
+    // nextval[1]无脑写0
+    nextval[1] = 0;
+    // 从第二个位置开始，依次求nextval
+    for (int j = 2; j <= T.length; j++)
+    {
+        // 如果当前的next[j]所指的字符，和目前j所指的j相等
+        if (T.ch[next[j]] == T.ch[j])
+            // 则直接给到最终next[j]的位置，这样就避免了一次无效匹配
+            nextval[j] = nextval[next[j]];
+        // 不相等
+        else
+            // 则和next数组保持一致
+            nextval[j] = next[j];
+    }
+
     return true;
 }
 
@@ -255,13 +272,15 @@ int index_KMP(SString S, SString T, int next[])
         }
         // 否则 模式串根据next数组向右移动
         else
+        {
             // 与朴素模式匹配相比，i指针不回溯
             j = next[j];
+        }
     }
     if (j > T.length)
         return i - T.length;
     else
-        return 0;
+        return -9999;
 }
 // 最坏时间复杂度 = O(m+n)
 // 其中，求next数组复杂度 = O(m)
@@ -335,8 +354,8 @@ int main()
         std::cout << std::endl;
     }
 
-    char *char5 = "ababaa";
-    char *char6 = "baa";
+    char *char5 = "aaacaaaabdaaaab";
+    char *char6 = "aaaab";
 
     StrAssign(Y1, char5);
     StrAssign(Y2, char6);
@@ -344,10 +363,28 @@ int main()
     std::cout << "朴素模式匹配1：" << index(Y1, Y2) << std::endl;
     std::cout << "朴素模式匹配2：" << index2(Y1, Y2) << std::endl;
 
-    int next[6];
-    fineNext(Y1, next, 6);
+    int next[LEN];
+    int nextval[LEN];
+    fineNext(Y2, next);
+    fineNextval(Y2, next, nextval);
 
-    std::cout << "KMP：" << index_KMP(Y1, Y2, next) << std::endl;
+    // 输出next数组
+    std::cout << "next数组：";
+    for (int i = 1; i < LEN + 1; i++)
+    {
+        std::cout << next[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // 输出nextval数组
+    std::cout << "nextval数组：";
+    for (int i = 1; i < LEN + 1; i++)
+    {
+        std::cout << nextval[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "KMP：" << index_KMP(Y1, Y2, nextval) << std::endl;
 
     return 0;
 }
