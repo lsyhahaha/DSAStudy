@@ -1,4 +1,4 @@
-#include <stddef.h>
+﻿#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -26,101 +26,53 @@ bool Empty(LiStack S)
 // 进栈
 bool Push(LiStack &S, int x)
 {
-    LinkNode *s = (LinkNode *)malloc(sizeof(LinkNode));
+    LinkNode *p = (LinkNode *)malloc(sizeof(LinkNode));
     // 内存分配失败
-    if (s == NULL)
+    if (p == NULL)
         return false;
-    // 第一个结点的情况
-    if (Empty(S))
-    {
-        s->data = x;
-        s->next = S;
-        S = s;
-        return true;
-    }
-    // 第二个结点之后的情况
-    // 指针p指向扫描到的结点
-    LinkNode *p;
-    // p指向第一个结点（注意：不是头节点）
-    p = S;
-    // 循环到最后一个结点
-    while (p->next != NULL)
-    {
-        p = p->next;
-    }
-    // 将x给到s结点的data
-    s->data = x;
-    // s指向p指向的位置（NULL）
-    s->next = p->next;
-    // p指向s
-    p->next = s;
-    return true;
+    // 将x给到p结点的data
+    p->data = x;
+    // p->next指向S指向的位置
+    p->next = S;
+    // p设为S结点
+    S = p;
 }
 
-// 出栈
-bool Pop(LiStack &S, int &x)
+bool Pop(LiStack &S, int x)
 {
     // 栈空 报错
     if (Empty(S))
         return false;
-    // 如果第一个结点的next为空，单独处理
-    if (S->next == NULL)
-    {
-        printf("栈内最后一个元素Pop\n");
-        x = S->data;
-        free(S);
-        S = NULL;
-        return true;
-    }
-    // 指针p指向扫描到的结点
+
+    // 将S设为p结点
     LinkNode *p;
-    LinkNode *e;
-    // p指向第一个结点（注意：不是头节点）
     p = S;
-    // 循环到倒数第二个结点
-    while (p->next->next != NULL)
-    {
-        p = p->next;
-    }
-    // e指向最后一个结点
-    e = p->next;
-    // 最后一个结点的值给x
-    x = e->data;
-    // 倒数第二个结点指向NULL
-    p->next = NULL;
-    // 释放最后一个结点
-    free(e);
+
+    // 将栈顶元素给x
+    x = S->data;
+    // 将栈顶元素改为下一个（指针指向后一位）
+    S = S->next;
+
+    // 释放原来的栈顶元素
+    free(p);
+
     return true;
 }
 
 // 读取栈顶元素
 int GetTop(LiStack S)
 {
-    // 指针p指向扫描到的结点
-    LinkNode *p;
-    // p指向第一个结点（注意：不是头节点）
-    p = S;
-    int x = -9999;
-    if (p == NULL)
-        return x;
-    // 循环到最后一个结点
-    while (p->next != NULL)
-    {
-        p = p->next;
-    }
-    // 将最后一个结点的值给x
-    x = p->data;
-    return x;
+    return S->data;
 }
 
 // 链栈的后向遍历
-void BackwardTraversal(LinkNode *p)
+void BackwardTraversal(LiStack S)
 {
-    while (p != NULL)
+    while (S != NULL)
     {
-        // 对结点p的操作，如打印，查找
-        printf("%d\n", p->data);
-        p = p->next;
+        // 对结点S的操作，如打印，查找
+        printf("%d\n", S->data);
+        S = S->next;
     }
 }
 
