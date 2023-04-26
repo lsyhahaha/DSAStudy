@@ -60,6 +60,22 @@ void PostOrder(BiTree T)
     }
 }
 
+// 求树的深度
+int treeDepth(BiTree T)
+{
+    if (T == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        int l = treeDepth(T->lchild);
+        int r = treeDepth(T->rchild);
+        // 树的深度 = Max(左子树深度 右子树深度) + 1
+        return l > r ? l + 1 : r + 1;
+    }
+}
+
 int main()
 {
     // 定义一颗空树
@@ -83,6 +99,8 @@ int main()
     InOrder(root);
     std::cout << "开始后序遍历！" << std::endl;
     PostOrder(root);
+
+    std::cout << "树的深度：" << treeDepth(root) << std::endl;
 
     return 0;
 }
