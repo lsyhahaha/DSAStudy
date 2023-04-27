@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 
 // 定义最大长度
 #define MaxSize 10
@@ -70,6 +71,13 @@ int LocateElem(SqList L, int e)
     return 0;
 }
 
+// 遍历数组
+void Traversal(SqList L)
+{
+    for (int i = 0; i < L.length; i++)
+        std::cout << "data[" << i << "] = " << L.data[i] << std::endl;
+}
+
 int main()
 {
     SqList L;
@@ -81,9 +89,8 @@ int main()
 
     printf("插入操作前:\n");
 
-    // 违规打印整个顺序表
-    for (int i = 0; i < MaxSize; i++)
-        printf("data[%d]=%d\n", i, L.data[i]);
+    // 遍历顺序表
+    Traversal(L);
     printf("————————\n");
 
     // 在第二个位置插入数据
@@ -91,9 +98,8 @@ int main()
 
     printf("插入操作后:\n");
 
-    // 违规打印整个顺序表
-    for (int i = 0; i < MaxSize; i++)
-        printf("data[%d]=%d\n", i, L.data[i]);
+    // 遍历顺序表
+    Traversal(L);
     printf("————————\n");
 
     // 用变量e把删除的元素“带回来”
@@ -103,9 +109,8 @@ int main()
     printf("删除操作后:\n");
     printf("删除了元素%d\n", e);
 
-    // 违规打印整个顺序表
-    for (int i = 0; i < MaxSize; i++)
-        printf("data[%d]=%d\n", i, L.data[i]);
+    // 遍历顺序表
+    Traversal(L);
     printf("————————\n");
 
     // 查询第一个位置的元素
