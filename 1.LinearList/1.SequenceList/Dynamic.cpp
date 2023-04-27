@@ -109,7 +109,6 @@ int main()
     ListInsert(L, 2, 33);
 
     printf("插入操作前:\n");
-
     // 遍历顺序表
     Traversal(L);
     printf("————————\n");
@@ -118,7 +117,6 @@ int main()
     ListInsert(L, 2, 3);
 
     printf("插入操作后:\n");
-
     // 遍历顺序表
     Traversal(L);
     printf("————————\n");
@@ -129,7 +127,6 @@ int main()
 
     printf("删除操作后:\n");
     printf("删除了元素%d\n", e);
-
     // 遍历顺序表
     Traversal(L);
     printf("————————\n");

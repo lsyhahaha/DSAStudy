@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 typedef struct LNode
 {
@@ -10,8 +11,9 @@ typedef struct LNode
     struct LNode *next;
 } LNode, *LinkList;
 
-// LNode *L 声明一个指向单链表第一个节点的指针
-// LinkList L 声明一个指向单链表第一个节点的指针，代码可读性更强
+// 两个别名让代码可读性更强（它们实际上就是完全一样的一个东西LNode，即声明一个指向单链表第一个节点的指针）
+// LNode *L 一个结点
+// LinkList L 一个单链表
 
 // 初始化链表（带头结点）
 bool InitList(LinkList &L)
@@ -62,9 +64,9 @@ LNode *GetElem(LinkList L, int i)
     LNode *p;
     // 当前p指向的是第几个结点（第0个结点 头节点）
     int j = 0;
-    // p指向第一个结点（注意：不是头节点）
+    // p指向头结点（第0个结点，不存数据）
     p = L;
-    // 循环摘到第i个结点
+    // 循环找到第i个结点
     while (p != NULL && j < i)
     {
         p = p->next;
@@ -122,6 +124,8 @@ bool InsertPriorNode(LNode *p, int e)
 // 按位序插入
 bool ListInsert(LinkList &L, int i, int e)
 {
+    if (i < 1)
+        return false;
     // 找到第i-1个结点
     LNode *p = GetElem(L, i - 1);
     return InsertNextNode(p, e);
@@ -147,22 +151,6 @@ bool ListDelete(LinkList &L, int i, int &e)
     // 释放结点的存储空间
     free(q);
     // 删除成功
-    return true;
-}
-
-// 删除指定节点p
-bool DeleteNode(LNode *p)
-{
-    if (p == NULL)
-        return false;
-    // 令q指向*p的后继结点
-    LNode *q = p->next;
-    // 和后继结点交换数据域
-    p->data = p->next->data;
-    // 将*q结点从链中“断开”
-    p->next = q->next;
-    // 释放后继结点的存储空间
-    free(q);
     return true;
 }
 
@@ -250,8 +238,56 @@ bool isTail2(LinkList L, LNode *p)
         return false;
 }
 
+// 遍历单链表
+void Traversal(LinkList L)
+{
+    // 声明一个p指针，指向L->next所指对象
+    LNode *p = L->next;
+    // 只要p不等于NULL，就继续
+    while (p != NULL)
+    {
+        std::cout << p->data << std::endl;
+        p = p->next;
+    }
+}
+
 int main()
 {
     LinkList L;
     InitList(L);
+
+    ListInsert(L, 1, 11);
+    ListInsert(L, 2, 22);
+    ListInsert(L, 3, 33);
+
+    printf("插入操作前:\n");
+    // 遍历顺序表
+    Traversal(L);
+    printf("————————\n");
+
+    // 在第二个位置插入数据
+    ListInsert(L, 2, 3);
+
+    printf("插入操作后:\n");
+    // 遍历顺序表
+    Traversal(L);
+    printf("————————\n");
+
+    // 用变量e把删除的元素“带回来”
+    int e = -1;
+    ListDelete(L, 2, e);
+
+    printf("删除操作后:\n");
+    printf("删除了元素%d\n", e);
+    // 遍历顺序表
+    Traversal(L);
+    printf("————————\n");
+
+    // 查询第一个位置的元素
+    printf("第一个位置的元素是: %d\n", GetElem(L, 1)->data);
+    // 查询22所在位置
+    // 这里的函数并不能返回位置，而是结点本身，这里查询一下next的数据域。
+    printf("22所在位置的下一个结点数据是: %d\n", LocateElem(L, 22)->next->data);
+
+    return 0;
 }
