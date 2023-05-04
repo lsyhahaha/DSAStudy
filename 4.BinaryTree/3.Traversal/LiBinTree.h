@@ -53,3 +53,8 @@ bool InsertNode(BiTNode *f, int x, int h)
     }
     return true;
 }
+
+void visit(BiTNode *T)
+{
+    std::cout << "当前结点数据：" << T->data << std::endl;
+}

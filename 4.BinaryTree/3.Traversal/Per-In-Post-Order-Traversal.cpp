@@ -4,11 +4,6 @@
 #include <iostream>
 #include "LiBinTree.h"
 
-void visit(BiTNode *T)
-{
-    std::cout << "当前结点数据：" << T->data << std::endl;
-}
-
 // 先序遍历操作过程
 // 1、若二叉树为空，则什么也不做
 // 2、若二叉树非空
