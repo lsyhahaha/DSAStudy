@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <iostream>
 
 // 链式队列结点
 typedef struct LinkNode
@@ -101,7 +102,7 @@ bool DeQueue(LinkQueue &Q, int &x)
 bool DeQueue2(LinkQueue &Q, int &x)
 {
     // 空队
-    if (IsEmpty2)
+    if (IsEmpty2(Q))
         return false;
     // p指向此次出队的结点
     LinkNode *p = Q.front;
@@ -121,11 +122,87 @@ bool DeQueue2(LinkQueue &Q, int &x)
     return true;
 }
 
+// 遍历队列（带头结点）
+void Traversal(LinkQueue Q)
+{
+    LinkNode *p = Q.front;
+    while (p->next != NULL)
+    {
+        std::cout << p->next->data << std::endl;
+        p = p->next;
+    }
+}
+
+// 遍历队列（不带头结点）
+void Traversal2(LinkQueue Q)
+{
+    LinkNode *p = Q.front;
+    while (p != NULL)
+    {
+        std::cout << p->data << std::endl;
+        p = p->next;
+    }
+}
+
 // 链队列除非内存不足，否则一般不会队满
 
 int main()
 {
     LinkQueue Q;
+
+    // 带头结点方式
+    std::cout << "带头结点：" << std::endl;
     InitQueue(Q);
+
+    EnQueue(Q, 1);
+    EnQueue(Q, 2);
+    EnQueue(Q, 3);
+    EnQueue(Q, 4);
+    EnQueue(Q, 5);
+
+    std::cout << "入队后：" << std::endl;
+    Traversal(Q);
+
+    int x = 0;
+    std::cout << "出队：" << std::endl;
+    DeQueue(Q, x);
+    std::cout << x << std::endl;
+    DeQueue(Q, x);
+    std::cout << x << std::endl;
+    DeQueue(Q, x);
+    std::cout << x << std::endl;
+
+    std::cout << "出队后：" << std::endl;
+    Traversal(Q);
+
+    std::cout << "队空：" << IsEmpty(Q) << std::endl;
+
+    // 不带头结点方式
+    std::cout << "不带头结点：" << std::endl;
+    InitQueue2(Q);
+
+    EnQueue2(Q, 1);
+    EnQueue2(Q, 2);
+    EnQueue2(Q, 3);
+    EnQueue2(Q, 4);
+    EnQueue2(Q, 5);
+
+    std::cout << "入队后：" << std::endl;
+    Traversal2(Q);
+
+    x = 0;
+    std::cout << "出队：" << std::endl;
+    DeQueue2(Q, x);
+    std::cout << x << std::endl;
+    DeQueue2(Q, x);
+    std::cout << x << std::endl;
+    DeQueue2(Q, x);
+    std::cout << x << std::endl;
+
+    std::cout << "出队后：" << std::endl;
+    Traversal2(Q);
+
+    std::cout << "队空：" << IsEmpty(Q) << std::endl;
+
     return 0;
 }

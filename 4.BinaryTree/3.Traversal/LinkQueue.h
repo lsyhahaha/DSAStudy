@@ -103,7 +103,7 @@ bool DeQueue(LinkQueue &Q, BiTNode *&x)
 bool DeQueue2(LinkQueue &Q, BiTNode *&x)
 {
     // 空队
-    if (IsEmpty2)
+    if (IsEmpty2(Q))
         return false;
     // p指向此次出队的结点
     LinkNode *p = Q.front;
