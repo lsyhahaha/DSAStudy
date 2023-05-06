@@ -1,3 +1,5 @@
+#include <iostream>
+
 // 本实现中，队头指针指向第一个元素，队尾指针指向最后一个元素的下一个位置。
 
 // 关于队列判满的三种方法
@@ -88,11 +90,43 @@ bool GetHead(SqQueue Q, int &x)
     return true;
 }
 
+// 遍历队列
+void Traversal(SqQueue Q)
+{
+    for (int i = 0; i < Q.size; i++)
+    {
+        std::cout << Q.data[Q.front + i] << std::endl;
+    }
+}
+
 // 队列元素个数：(rear + MaxSize - front) % MaxSize
 
 int main()
 {
     SqQueue Q;
     InitQueue(Q);
+
+    EnQueue(Q, 1);
+    EnQueue(Q, 2);
+    EnQueue(Q, 3);
+    EnQueue(Q, 4);
+    EnQueue(Q, 5);
+
+    std::cout << "入队后：" << std::endl;
+    Traversal(Q);
+
+    int x = 0;
+    std::cout << "出队：" << std::endl;
+    DeQueue(Q, x);
+    std::cout << x << std::endl;
+    DeQueue(Q, x);
+    std::cout << x << std::endl;
+    DeQueue(Q, x);
+    std::cout << x << std::endl;
+
+    std::cout << "出队后：" << std::endl;
+    Traversal(Q);
+
+    std::cout << "队空：" << QueueEmpty(Q) << std::endl;
     return 0;
 }
