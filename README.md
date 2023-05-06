@@ -21,3 +21,7 @@
 - [第四章：串](3.String/)
     - [顺序串（包含 朴素模式匹配算法 和 KMP算法）](3.String/1.SequenceString/)
     - [链串](3.String/2.LinkString/)
+- [第五章：二叉树](4.BinaryTree/)
+    - [顺序栈实现二叉树](4.BinaryTree/1.SequenceBinaryTree/)
+    - [链栈实现二叉树](4.BinaryTree/2.LinkBinaryTree/)
+    - [二叉树的遍历](4.BinaryTree/3.Traversal/)
