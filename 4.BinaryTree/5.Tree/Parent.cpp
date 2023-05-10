@@ -1,3 +1,5 @@
+// 顺序存储
+
 #include <iostream>
 
 // 树中最多的结点数
