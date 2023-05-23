@@ -11,6 +11,8 @@ typedef struct
     VexType Vex[MaxVertexNum];
     // 邻接矩阵 边表
     bool Edge[MaxVertexNum][MaxVertexNum];
+    // 当前位置是否可以插入
+    bool VexExist[MaxVertexNum];
     // 图的当前顶点数和边数/弧数
     int vexnum, arcnum;
 } MGraph;
@@ -20,6 +22,7 @@ void InitGraph(MGraph &G)
     for (int i = 0; i < MaxVertexNum; i++)
     {
         G.Vex[i] = 0;
+        G.VexExist[i] = false;
         for (int j = 0; j < MaxVertexNum; j++)
         {
             G.Edge[i][j] = false;
@@ -30,9 +33,10 @@ void InitGraph(MGraph &G)
 
 void Traversal(MGraph G)
 {
-    for (int i = 0; i < G.vexnum; i++)
+    for (int i = 0; i < MaxVertexNum; i++)
     {
-        std::cout << G.Vex[i] << " ";
+        if (G.VexExist[i])
+            std::cout << G.Vex[i] << " ";
     }
     std::cout << std::endl;
 }
@@ -40,10 +44,11 @@ void Traversal(MGraph G)
 // 找到顶点x的下标
 bool FindVex(MGraph G, VexType x, int &i)
 {
-    for (i = 0; i < G.vexnum; i++)
+    for (i = 0; i < MaxVertexNum; i++)
     {
-        if (G.Vex[i] == x)
-            return true;
+        if (G.VexExist[i])
+            if (G.Vex[i] == x)
+                return true;
     }
     return false;
 }
@@ -51,12 +56,36 @@ bool FindVex(MGraph G, VexType x, int &i)
 // 在图G中插入顶点x
 bool InsertVertex(MGraph &G, VexType x)
 {
-    G.Vex[G.vexnum] = x;
-    G.vexnum++;
-    return true;
+    for (int i = 0; i < MaxVertexNum; i++)
+    {
+        if (!G.VexExist[i])
+        {
+            G.Vex[i] = x;
+            G.VexExist[i] = true;
+            G.vexnum++;
+            return true;
+        }
+    }
+    return false;
 }
 
 // 在图G中删除顶点
+bool DeleteVertex(MGraph &G, VexType x)
+{
+    int xd;
+    if (FindVex(G, x, xd))
+    {
+        G.VexExist[xd] = false;
+        for (int i = 0; i < MaxVertexNum; i++)
+        {
+            G.Edge[xd][i] = false;
+            G.Edge[i][xd] = false;
+        }
+        G.vexnum--;
+        return true;
+    }
+    return false;
+}
 
 // 若(x, y)或<x, y>不存在，则向图G中添加该边
 bool AddEdge(MGraph &G, VexType x, VexType y)
@@ -101,7 +130,7 @@ bool Neighbors(MGraph G, VexType x)
     int xd;
     if (FindVex(G, x, xd))
     {
-        for (int i = 0; i < G.vexnum; i++)
+        for (int i = 0; i < MaxVertexNum; i++)
         {
             std::cout << G.Edge[xd][i];
         }
@@ -109,6 +138,45 @@ bool Neighbors(MGraph G, VexType x)
         return true;
     }
     return false;
+}
+
+// 求图G中顶点x的第一个邻接点，若有则返回顶点号。
+// 若x没有邻接点或图中不存在x，则返回-1
+int FirstNeighbor(MGraph G, VexType x)
+{
+    int xd;
+    if (FindVex(G, x, xd))
+    {
+        for (int i = 0; i < MaxVertexNum; i++)
+        {
+            if (G.Edge[xd][i])
+            {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+// 假设图G中顶点y是顶点x的第一个邻接点，返回除y之外顶点x的下一个邻接点的顶点号。
+// 若y是x的最后一个邻接点，则返回-1
+int NextNeighbor(MGraph G, VexType x, VexType y)
+{
+    int xd,yd;
+    if (FindVex(G, x, xd)&&FindVex(G, y, yd))
+    {
+        if (FirstNeighbor(G, x) == yd)
+        {
+            for (int i = yd; i < MaxVertexNum; i++)
+            {
+                if (G.Edge[xd][i])
+                {
+                    return i;
+                }
+            }
+        }
+    }
+    return -1;
 }
 
 int main()
@@ -128,6 +196,17 @@ int main()
 
     // 遍历表
     std::cout << "当前表内数据：" << std::endl;
+    Traversal(G);
+
+    // 删除结点E
+    DeleteVertex(G, 'E');
+    std::cout << "删除结点E后，表内数据：" << std::endl;
+    Traversal(G);
+
+    // 继续插入结点H和I
+    InsertVertex(G, 'H');
+    InsertVertex(G, 'I');
+    std::cout << "继续插入结点H和I，表内数据：" << std::endl;
     Traversal(G);
 
     return 0;
