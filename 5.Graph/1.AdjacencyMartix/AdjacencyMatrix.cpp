@@ -11,7 +11,7 @@ typedef struct
     VexType Vex[MaxVertexNum];
     // 邻接矩阵 边表
     bool Edge[MaxVertexNum][MaxVertexNum];
-    // 当前位置是否可以插入
+    // 顶点是否存在
     bool VexExist[MaxVertexNum];
     // 图的当前顶点数和边数/弧数
     int vexnum, arcnum;
@@ -29,6 +29,7 @@ void InitGraph(MGraph &G)
         }
     }
     G.vexnum = 0;
+    G.arcnum = 0;
 }
 
 void Traversal(MGraph G)
@@ -106,7 +107,7 @@ bool DeleteVertex(MGraph &G, VexType x)
     return false;
 }
 
-// 若(x, y)或<x, y>不存在，则向图G中添加该边
+// 若(x, y)不存在，则向图G中添加该边
 bool AddEdge(MGraph &G, VexType x, VexType y)
 {
     int xd, yd;
@@ -114,12 +115,13 @@ bool AddEdge(MGraph &G, VexType x, VexType y)
     {
         G.Edge[xd][yd] = true;
         G.Edge[yd][xd] = true;
+        G.arcnum++;
         return true;
     }
     return false;
 }
 
-// 若(x, y)或<x, y>存在，则向图G中删除该边
+// 若(x, y)存在，则向图G中删除该边
 // 从代码逻辑上来说，不需要做判断，直接设为false即可
 bool RemoveEdge(MGraph &G, VexType x, VexType y)
 {
@@ -127,12 +129,14 @@ bool RemoveEdge(MGraph &G, VexType x, VexType y)
     if (FindVex(G, x, xd) && FindVex(G, y, yd))
     {
         G.Edge[xd][yd] = false;
+        G.Edge[yd][xd] = false;
+        G.arcnum--;
         return true;
     }
     return false;
 }
 
-// 判断图G是否存在边<x, y>或(x, y)
+// 判断图G是否存在边(x, y)
 bool Adjacent(MGraph G, VexType x, VexType y)
 {
     int xd, yd;
