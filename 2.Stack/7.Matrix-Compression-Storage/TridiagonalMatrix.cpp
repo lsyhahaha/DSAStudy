@@ -1,6 +1,7 @@
 // 压缩存储：只存储带状部分
 
 #include <iostream>
+#include<cmath>
 
 #define n 5
 #define c 0

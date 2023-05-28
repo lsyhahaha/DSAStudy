@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <cstring>
 
 #define MAXLEN 255
 #define LEN 5
